@@ -37,7 +37,7 @@ class BatchGenerator(object):
         batch_input = []
         batch_target = []
         for vid in batch:
-            features = np.load(self.features_path + vid.split('.')[0] + '.npy')
+            features = np.load(self.features_path + vid.split('.')[0] + '.npy', allow_pickle=True)
             file_ptr = open(self.gt_path + vid, 'r')
             content = file_ptr.read().split('\n')[:-1]
             classes = np.zeros(min(np.shape(features)[1], len(content)))

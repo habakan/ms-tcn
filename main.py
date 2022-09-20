@@ -19,13 +19,14 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--action', default='train')
 parser.add_argument('--dataset', default="gtea")
 parser.add_argument('--split', default='1')
+parser.add_argument('--features_dim', default='2048')
 
 args = parser.parse_args()
 
 num_stages = 4
 num_layers = 10
 num_f_maps = 64
-features_dim = 2048
+features_dim = int(args.features_dim)
 bz = 1
 lr = 0.0005
 num_epochs = 50

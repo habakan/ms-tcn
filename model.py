@@ -89,8 +89,8 @@ class Trainer:
             batch_gen.reset()
             torch.save(self.model.state_dict(), save_dir + "/epoch-" + str(epoch + 1) + ".model")
             torch.save(optimizer.state_dict(), save_dir + "/epoch-" + str(epoch + 1) + ".opt")
-            print("[epoch %d]: epoch loss = %f,   acc = %f" % (epoch + 1, epoch_loss / len(batch_gen.list_of_examples),
-                                                               float(correct)/total))
+            print(("[epoch %d]: epoch loss = %f,   acc = %f" % (epoch + 1, epoch_loss / len(batch_gen.list_of_examples),
+                                                               float(correct)/total)))
 
     def predict(self, model_dir, results_dir, features_path, vid_list_file, epoch, actions_dict, device, sample_rate):
         self.model.eval()
@@ -101,7 +101,7 @@ class Trainer:
             list_of_vids = file_ptr.read().split('\n')[:-1]
             file_ptr.close()
             for vid in list_of_vids:
-                print vid
+                print(vid)
                 features = np.load(features_path + vid.split('.')[0] + '.npy')
                 features = features[:, ::sample_rate]
                 input_x = torch.tensor(features, dtype=torch.float)
@@ -112,7 +112,7 @@ class Trainer:
                 predicted = predicted.squeeze()
                 recognition = []
                 for i in range(len(predicted)):
-                    recognition = np.concatenate((recognition, [actions_dict.keys()[actions_dict.values().index(predicted[i].item())]]*sample_rate))
+                    recognition = np.concatenate((recognition, [list(actions_dict.keys())[list(actions_dict.values()).index(predicted[i].item())]]*sample_rate))
                 f_name = vid.split('/')[-1].split('.')[0]
                 f_ptr = open(results_dir + "/" + f_name, "w")
                 f_ptr.write("### Frame level recognition: ###\n")

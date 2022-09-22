@@ -20,6 +20,7 @@ parser.add_argument('--action', default='train')
 parser.add_argument('--dataset', default="gtea")
 parser.add_argument('--split', default='1')
 parser.add_argument('--features_dim', default='2048')
+parser.add_argument('--features_dir_name', default='features')
 
 args = parser.parse_args()
 
@@ -40,7 +41,7 @@ if args.dataset == "50salads":
 
 vid_list_file = "./data/"+args.dataset+"/splits/train.split"+args.split+".bundle"
 vid_list_file_tst = "./data/"+args.dataset+"/splits/test.split"+args.split+".bundle"
-features_path = "./data/"+args.dataset+"/features/"
+features_path = "./data/"+args.dataset+"/"+args.features_dir_name+"/"
 gt_path = "./data/"+args.dataset+"/groundTruth/"
 
 mapping_file = "./data/"+args.dataset+"/mapping.txt"

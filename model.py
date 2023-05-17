@@ -63,6 +63,7 @@ class Trainer:
         self.model.train()
         self.model.to(device)
         optimizer = optim.Adam(self.model.parameters(), lr=learning_rate)
+        best_loss = 100.0
         for epoch in range(num_epochs):
             epoch_loss = 0
             correct = 0
@@ -91,12 +92,19 @@ class Trainer:
             torch.save(optimizer.state_dict(), save_dir + "/epoch-" + str(epoch + 1) + ".opt")
             print(("[epoch %d]: epoch loss = %f,   acc = %f" % (epoch + 1, epoch_loss / len(batch_gen.list_of_examples),
                                                                float(correct)/total)))
+            if epoch_loss / len(batch_gen.list_of_examples) < best_loss:
+                best_loss = epoch_loss / len(batch_gen.list_of_examples)
+                torch.save(self.model.state_dict(), save_dir + "/best.model")
+                torch.save(optimizer.state_dict(), save_dir + "/best.opt")
 
-    def predict(self, model_dir, results_dir, features_path, vid_list_file, epoch, actions_dict, device, sample_rate):
+    def predict(self, model_dir, results_dir, features_path, vid_list_file, epoch, actions_dict, device, sample_rate, is_best=False):
         self.model.eval()
         with torch.no_grad():
             self.model.to(device)
-            self.model.load_state_dict(torch.load(model_dir + "/epoch-" + str(epoch) + ".model"))
+            if is_best:
+                self.model.load_state_dict(torch.load(model_dir + "/best.model"))
+            else:
+                self.model.load_state_dict(torch.load(model_dir + "/epoch-" + str(epoch) + ".model"))
             file_ptr = open(vid_list_file, 'r')
             list_of_vids = file_ptr.read().split('\n')[:-1]
             file_ptr.close()

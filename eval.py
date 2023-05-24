@@ -3,7 +3,7 @@
 
 import numpy as np
 import argparse
-
+import csv
 
 def read_file(path):
     with open(path, 'r') as f:
@@ -95,6 +95,7 @@ def main():
 
     parser.add_argument('--dataset', default="gtea")
     parser.add_argument('--split', default='1')
+    parser.add_argument('--output_csv_path', default='./results/eval.csv')
 
     args = parser.parse_args()
 
@@ -131,8 +132,14 @@ def main():
             fp[s] += fp1
             fn[s] += fn1
             
-    print("Acc: %.4f" % (100*float(correct)/total))
-    print('Edit: %.4f' % ((1.0*edit)/len(list_of_videos)))
+    acc = 100*float(correct)/total
+    edit = (1.0*edit)/len(list_of_videos)
+
+    print("Acc: %.4f" % (acc))
+    print('Edit: %.4f' % (edit))
+
+    f1_list = []
+
     for s in range(len(overlap)):
         precision = tp[s] / float(tp[s]+fp[s])
         recall = tp[s] / float(tp[s]+fn[s])
@@ -141,6 +148,12 @@ def main():
 
         f1 = np.nan_to_num(f1)*100
         print('F1@%0.2f: %.4f' % (overlap[s], f1))
+        f1_list.append(f1)
+
+    with open(args.output_csv_path, 'w', newline='') as csvfile:
+        evalwriter = csv.writer(csvfile, delimiter=',')
+        evalwriter.writerow(['Acc', 'Edit', 'F1@10%', 'F1@25%', 'F1@50%'])
+        evalwriter.writerow([acc, edit] + f1_list)
 
 
 if __name__ == '__main__':

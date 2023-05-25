@@ -96,6 +96,7 @@ def main():
     parser.add_argument('--dataset', default="gtea")
     parser.add_argument('--split', default='1')
     parser.add_argument('--output_csv_path', default='./results/eval.csv')
+    parser.add_argument('--config_path', default='./configs/example.yaml')
 
     args = parser.parse_args()
 
@@ -152,8 +153,8 @@ def main():
 
     with open(args.output_csv_path, 'w', newline='') as csvfile:
         evalwriter = csv.writer(csvfile, delimiter=',')
-        evalwriter.writerow(['Acc', 'Edit', 'F1@10%', 'F1@25%', 'F1@50%'])
-        evalwriter.writerow([acc, edit] + f1_list)
+        evalwriter.writerow(['config_path', 'fold', 'Acc', 'Edit', 'F1@10%', 'F1@25%', 'F1@50%'])
+        evalwriter.writerow([args.config_path, args.split, acc, edit] + f1_list)
 
 
 if __name__ == '__main__':

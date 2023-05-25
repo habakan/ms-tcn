@@ -95,10 +95,11 @@ def main():
 
     parser.add_argument('--dataset', default="gtea")
     parser.add_argument('--split', default='1')
-    parser.add_argument('--output_csv_path', default='./results/eval.csv')
     parser.add_argument('--config_path', default='./configs/example.yaml')
 
     args = parser.parse_args()
+
+    output_path = './results/'+'ms-tcn_' + args.config_path.split('/')[-1].split('.')[0]+'.csv'
 
     ground_truth_path = "./data/"+args.dataset+"/groundTruth/"
     recog_path = "./results/"+args.dataset+"/split_"+args.split+"/"
@@ -151,7 +152,7 @@ def main():
         print('F1@%0.2f: %.4f' % (overlap[s], f1))
         f1_list.append(f1)
 
-    with open(args.output_csv_path, 'w', newline='') as csvfile:
+    with open(output_path, 'w', newline='') as csvfile:
         evalwriter = csv.writer(csvfile, delimiter=',')
         evalwriter.writerow(['config_path', 'fold', 'Acc', 'Edit', 'F1@10%', 'F1@25%', 'F1@50%'])
         evalwriter.writerow([args.config_path, args.split, acc, edit] + f1_list)

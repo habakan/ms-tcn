@@ -95,7 +95,7 @@ def main():
 
     parser.add_argument('--dataset', default="gtea")
     parser.add_argument('--split', default='1')
-    parser.add_argument('--config_path', default='./configs/example.yaml')
+    parser.add_argument('--config', default='./configs/example.yaml')
 
     args = parser.parse_args()
 

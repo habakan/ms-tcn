@@ -155,7 +155,7 @@ def main():
     with open(output_path, 'w', newline='') as csvfile:
         evalwriter = csv.writer(csvfile, delimiter=',')
         evalwriter.writerow(['config_path', 'fold', 'Acc', 'Edit', 'F1@10%', 'F1@25%', 'F1@50%'])
-        evalwriter.writerow([args.config_path, args.split, acc, edit] + f1_list)
+        evalwriter.writerow([args.config, args.split, acc, edit] + f1_list)
 
 
 if __name__ == '__main__':

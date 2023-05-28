@@ -4,6 +4,7 @@
 import numpy as np
 import argparse
 import csv
+import pathlib
 
 def read_file(path):
     with open(path, 'r') as f:
@@ -99,7 +100,7 @@ def main():
 
     args = parser.parse_args()
 
-    output_path = './results/'+'ms-tcn_' + args.config.split('/')[-1].split('.')[0]+'.csv'
+    output_path = pathlib.Path('/work/results/'+'ms-tcn_' + args.config.split('/')[-1].split('.')[0]+'.csv')
 
     ground_truth_path = "./data/"+args.dataset+"/groundTruth/"
     recog_path = "./results/"+args.dataset+"/split_"+args.split+"/"
@@ -152,9 +153,10 @@ def main():
         print('F1@%0.2f: %.4f' % (overlap[s], f1))
         f1_list.append(f1)
 
-    with open(output_path, 'w', newline='') as csvfile:
+    with output_path.open('a') as csvfile:
         evalwriter = csv.writer(csvfile, delimiter=',')
-        evalwriter.writerow(['config_path', 'fold', 'Acc', 'Edit', 'F1@10%', 'F1@25%', 'F1@50%'])
+        if not output_path.exists():
+            evalwriter.writerow(['config_path', 'fold', 'Acc', 'Edit', 'F1@10%', 'F1@25%', 'F1@50%'])
         evalwriter.writerow([args.config, args.split, acc, edit] + f1_list)
 
 

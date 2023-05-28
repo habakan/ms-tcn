@@ -97,8 +97,11 @@ def main():
     parser.add_argument('--dataset', default="gtea")
     parser.add_argument('--split', default='1')
     parser.add_argument('--config', default='./configs/example.yaml')
+    parser.add_argument('--exclude_category_list', default=[], nargs="*", type=str)
 
     args = parser.parse_args()
+
+    exclude_category_list = args.exclude_category_list
 
     output_path = pathlib.Path('/work/results/'+'ms-tcn_' + args.config.split('/')[-1].split('.')[0]+'.csv')
 
@@ -124,7 +127,7 @@ def main():
 
         for i in range(len(gt_content)):
             total += 1
-            if gt_content[i] == recog_content[i]:
+            if gt_content[i] == recog_content[i] and gt_content[i] not in exclude_category_list:
                 correct += 1
         
         edit += edit_score(recog_content, gt_content)

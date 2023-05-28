@@ -99,7 +99,7 @@ def main():
 
     args = parser.parse_args()
 
-    output_path = './results/'+'ms-tcn_' + args.config_path.split('/')[-1].split('.')[0]+'.csv'
+    output_path = './results/'+'ms-tcn_' + args.config.split('/')[-1].split('.')[0]+'.csv'
 
     ground_truth_path = "./data/"+args.dataset+"/groundTruth/"
     recog_path = "./results/"+args.dataset+"/split_"+args.split+"/"

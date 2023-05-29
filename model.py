@@ -115,8 +115,8 @@ class Trainer:
                 input_x = torch.tensor(features, dtype=torch.float)
                 input_x.unsqueeze_(0)
                 input_x = input_x.to(device)
-                predictions = self.model(input_x, torch.ones(input_x.size(), device=device))
-                _, predicted = torch.max(predictions[-1].data, 1)
+                predictions = self.model(input_x, torch.ones(input_x.size(), device=device))[-1].data
+                _, predicted = torch.max(predictions, 1)
                 predicted = predicted.squeeze()
                 recognition = []
                 for i in range(len(predicted)):
@@ -126,3 +126,6 @@ class Trainer:
                 f_ptr.write("### Frame level recognition: ###\n")
                 f_ptr.write(' '.join(recognition))
                 f_ptr.close()
+
+                predictions = predictions.to('cpu').detach().numpy().copy()
+                np.save(results_dir + "/" + f_name + ".npy", predictions)

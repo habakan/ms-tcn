@@ -96,6 +96,7 @@ def main():
 
     parser.add_argument('--dataset', default="gtea")
     parser.add_argument('--split', default='1')
+    parser.add_argument('--feature_name', default='features')
     parser.add_argument('--config', default='./configs/example.yaml')
     parser.add_argument('--exclude_category_list', default=[], nargs="*", type=str)
 
@@ -159,8 +160,8 @@ def main():
     with output_path.open('a') as csvfile:
         evalwriter = csv.writer(csvfile, delimiter=',')
         if not output_path.exists():
-            evalwriter.writerow(['config_path', 'fold', 'Acc', 'Edit', 'F1@10%', 'F1@25%', 'F1@50%'])
-        evalwriter.writerow([args.config, args.split, acc, edit] + f1_list)
+            evalwriter.writerow(['config_path', 'feature_name', 'fold', 'Acc', 'Edit', 'F1@10%', 'F1@25%', 'F1@50%'])
+        evalwriter.writerow([args.config, args.feature_name, args.split, acc, edit] + f1_list)
 
 
 if __name__ == '__main__':

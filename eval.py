@@ -104,7 +104,7 @@ def main():
 
     exclude_category_list = args.exclude_category_list
 
-    output_path = pathlib.Path('/work/results/'+'ms-tcn_' + args.config.split('/')[-1].split('.')[0]+'.csv')
+    output_path = pathlib.Path('/work/results/'+'ms-tcn_' + args.dataset+'.csv')
 
     ground_truth_path = "./data/"+args.dataset+"/groundTruth/"
     recog_path = "./results/"+args.dataset+"/split_"+args.split+"/"

@@ -66,6 +66,8 @@ def main():
 
             for i in eval_indices:
                 total += 1
+                if i >= len(recog_content):
+                    break
                 if gt_content[i] == recog_content[i]:
                     correct += 1
         acc = (100 * float(correct) / total)
